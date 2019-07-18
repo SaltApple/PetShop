@@ -1,0 +1,158 @@
+<html>
+<head>
+	<TITLE></TITLE>
+	<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+	<script src="../js/jquery-3.1.1.min.js"></script>
+	<script src="../js/tojson.js"></script>
+	<script>
+		$(function () {
+			query()
+			register()
+		})
+		function query() {
+			var url="http://localhost:8080/pets/queryPets"
+			$.ajax({
+				url:url,
+				type:"post",
+				contentType:"application/json",
+				statusCode:{
+					200:function (data) {
+						$("#pets").empty()
+						var str=""
+						$.each(data,function (index,val) {
+							//alert(val.petName)
+							str+="<option value='"+val.petId+"'>"+val.petName+"</option>"
+						})
+						$("#pets").append(str)
+					}
+				}
+			})
+		}
+
+		function register() {
+			$("#res_sub").click(function () {
+				var url="http://localhost:8080/account/register"
+				var data=JSON.stringify($("#res_form").serializeObject())
+				alert(data)
+				$.ajax({
+					url:url,
+					type:"post",
+					data:data,
+					contentType:"application/json",
+					statusCode:{
+						200:function () {
+							alert("ok")
+							window.location="../shop/login.html"
+						}
+					}
+				})
+			})
+		}
+	</script>
+</head>
+<body>
+<div id="top"></div>
+<form id="res_form">
+	<TABLE cellpadding=10 cellspacing=0 align=center border=1 width="400"
+		bgcolor=#dddddd>
+		<TR>
+			<TD>
+				<FONT color=darkgreen>
+					<H3>
+						用户基本信息
+					</H3>
+				</FONT>
+				<TABLE border=0  bgcolor=#FFFF88  width="100%">
+					<TR bgcolor=#FFFF88>						
+						<TD>
+						    用&nbsp;&nbsp;户&nbsp;&nbsp;名:
+							<input type="text" id="username" name="userName" placeholder="请输入用户名">
+						</TD>
+					</TR>
+
+					<TR bgcolor=#FFFF88>
+						<TD>
+							密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:
+							<input type="text" id="password" name="password" placeholder="请输入密码">
+						</TD>
+					</TR>
+
+					<TR bgcolor=#FFFF88>
+						<TD>
+							重复密码:<input type="text" id="repassword" name="repassword" placeholder="请再输入密码">
+						</TD>
+					</TR>
+				</TABLE>
+
+
+				<FONT color=darkgreen><H3>
+					附加信息
+				</H3>
+				</FONT>
+
+				<TABLE bgcolor="#FFFF88" border=0
+					   bgcolor=#FFFF88 width="100%">
+					<TR bgcolor=#FFFF88>
+
+						<TD>
+							邮箱：<input type="text" name="email" id="res_email" placeholder="请输入邮箱"/>
+							<span class="info" id="emsg">邮箱为空或不符合！</span>
+						</TD>
+					</TR>
+
+					<TR bgcolor=#FFFF88>
+
+						<TD>
+							真实姓名：<input type="text" id="res_real" name="realName"  placeholder="请输入真实姓名"/>
+							<span class="info" id="xmsg">姓名不能为空！</span>
+						</TD>
+					</TR>
+
+					<TR bgcolor=#FFFF88>
+
+						<TD>
+							地址：<input type="text" name="address" id="res_address" placeholder="请输入地址"/>
+
+						</TD>
+					</TR>
+
+
+				</TABLE>
+
+
+				<FONT color=darkgreen><H3>
+					爱好信息
+				</H3>
+				</FONT>
+
+				<TABLE bgcolor="#FFFF88" border=0 cellpadding=3 cellspacing=1 width="100%">
+					<TR bgcolor=#FFFF88>
+
+						<TD>
+							语种：<select id="language" name="profile.language">
+							<option value="eng">英语</option>
+							<option value="chi">汉语</option>
+
+						</select>
+						</TD>
+					</TR>
+					<TR bgcolor=#FFFF88>
+
+						<TD>
+							宠物：
+							<select id="pets" name="profile.petId">
+
+							</select>
+						</TD>
+					</TR>
+
+				</TABLE>
+	</TABLE>
+	</form>
+	<BR>
+	<CENTER>
+		<input border=0 type="image" id="res_sub" src="../images/button_submit.gif" />
+	</CENTER>
+
+</body>
+</html>
